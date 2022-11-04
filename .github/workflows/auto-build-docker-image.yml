@@ -1,10 +1,10 @@
-name: build-docker-image
+name: Build docker image
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - 'main'
+      - 'dev'
 
 jobs:
   docker:
@@ -16,17 +16,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: dev
-      - 
-        name: Merge
-        run: |
-          git config --global user.name 'Bot'
-          git config --global user.email 'Bot@nagaseyami.com'
-
-          git pull --unshallow
-
-          git checkout dev
-          git merge --no-edit origin/main
-          git push origin dev
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
