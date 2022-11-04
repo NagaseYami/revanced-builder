@@ -24,7 +24,7 @@ jobs:
 
           git pull --unshallow
 
-          git chekout dev
+          git checkout dev
           git merge --no-edit origin/main
           git push origin dev
       -
