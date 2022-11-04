@@ -51,3 +51,16 @@ jobs:
       
     - name: Show value of 'has_new_commits'
       run: echo ${{ steps.sync.outputs.has_new_commits }}
+    
+    - 
+      name: Merge main to dev
+      if: steps.sync.outputs.has_new_commits == 'true'
+      run: |
+        git config --global user.name 'Bot'
+        git config --global user.email 'Bot@nagaseyami.com'
+
+        git pull --unshallow
+
+        git checkout dev
+        git merge --no-edit origin/main
+        git push origin dev
