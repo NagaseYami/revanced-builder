@@ -12,13 +12,17 @@ jobs:
     environment: Docker
     steps:
       -
-        name: Checkout & Merge
+        name: Checkout
         uses: actions/checkout@v3
         with:
           ref: dev
+      - 
+        name: Merge
         run: |
           git config --global user.name 'Bot'
           git config --global user.email 'Bot@nagaseyami.com'
+
+          git pull --unshallow
 
           git chekout dev
           git merge --no-edit origin/main
