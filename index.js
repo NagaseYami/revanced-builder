@@ -37,9 +37,7 @@ app.get('/revanced.apk', (_, res) => {
   res.download(file);
 });
 app.get('/microg.apk', (_, res) => {
-  const file = join(process.cwd(), 'revanced', global.jarNames.microG);
-
-  res.download(file);
+  res.download(global.jarNames.microG);
 });
 
 /**
