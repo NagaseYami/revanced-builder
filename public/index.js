@@ -442,7 +442,7 @@ ws.onmessage = (msg) => {
 
         if (!WS_URI.startsWith('ws://localhost'))
           firstFooterElement.innerHTML +=
-            '<button class="highlighted" onclick="window.open(\'/revanced.apk\', \'_blank\')">Download</button>';
+            '<button class="highlighted" onclick="window.open(\'/revanced.apk\', \'_blank\')">Download Revanced APK</button><button class="highlighted" onclick="window.open(\'/microg.apk\', \'_blank\')">Download MicroG</button>';
 
         firstFooterElement.innerHTML +=
           '<button class="highlighted" onclick="location.href = \'/\'">Build Again</button>';
