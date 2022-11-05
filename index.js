@@ -192,8 +192,8 @@ wsServer.on('connection', (ws) => {
       case 'installReVanced':
         await installReVanced(ws);
         break;
-      case 'exit':
-        process.kill(process.pid, 'SIGTERM');
+      // case 'exit':
+        // process.kill(process.pid, 'SIGTERM');
     }
   });
 });
