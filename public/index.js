@@ -445,7 +445,7 @@ ws.onmessage = (msg) => {
             '<button class="highlighted" onclick="window.open(\'/revanced.apk\', \'_blank\')">Download</button>';
 
         firstFooterElement.innerHTML +=
-          '<button class="highlighted" onclick="location.href = \'/\'">Build Again</button><button onclick="exitApp();">Quit</button>';
+          '<button class="highlighted" onclick="location.href = \'/\'">Build Again</button>';
       }
       break;
     case 'error':
