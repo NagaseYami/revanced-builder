@@ -26,6 +26,14 @@ const defaultPatchesList = JSON.stringify(
       {
         name: 'trill',
         patches: []
+      },
+      {
+        name: 'task',
+        patches: []
+      },
+      {
+        name: 'app',
+        patches: []
       }
     ]
   },
