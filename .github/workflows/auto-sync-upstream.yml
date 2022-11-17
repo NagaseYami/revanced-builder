@@ -53,7 +53,7 @@ jobs:
     
     - 
       name: Merge main to dev
-      if: steps.sync.outputs.has_new_commits == 'true'
+      # if: steps.sync.outputs.has_new_commits == 'true'
       run: |
         git config --global user.name 'Bot'
         git config --global user.email 'Bot@nagaseyami.com'
