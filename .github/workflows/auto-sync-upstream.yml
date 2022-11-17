@@ -58,7 +58,7 @@ jobs:
         git config --global user.name 'Bot'
         git config --global user.email 'Bot@nagaseyami.com'
 
-        git pull --unshallow
+        git pull
 
         git checkout dev
         git merge --no-edit origin/main
