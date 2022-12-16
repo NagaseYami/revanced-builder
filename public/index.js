@@ -11,6 +11,7 @@ let isDownloading = false;
 let hasFinished = false;
 let arch;
 let versionChoosen;
+let uploadedApk = false;
 
 if (localStorage.getItem('black-theme')) {
   document.documentElement.classList.add('black');
@@ -27,10 +28,14 @@ function setApp() {
 
   sendCommand({
     event: 'selectApp',
-    selectedApp: appChecked.value
+    selectedApp: {
+      packageName: appChecked.value,
+      link: appChecked.attributes.link.value,
+      appName: appChecked.attributes.appName.value
+    }
   });
 
-  location.href = '/dependencies';
+  location.href = '/patches';
 }
 
 function loadPatches() {
@@ -94,8 +99,9 @@ function setPatches() {
     selectedPatches: selectedPatchList,
     excludedPatches: excludedPatchList
   });
-
-  location.href = '/versions';
+  if (uploadedApk) {
+    location.href = '/patch';
+  } else location.href = '/versions';
 }
 
 /**
@@ -244,6 +250,7 @@ ws.onmessage = (msg) => {
   switch (message.event) {
     case 'patchList':
       {
+        uploadedApk = message.uploadedApk;
         const len = message.patchList.length;
 
         const patchListElement = document.getElementById('patchList');
@@ -340,13 +347,13 @@ ws.onmessage = (msg) => {
         for (let i = 0; i < len; i++) {
           const version = message.versionList[i];
           const noRec = version.recommended == 'NOREC';
-
+          const recommended = version.recommended ? 1 : 0;
           versionsElement.innerHTML += `
             <li>
             <input type="radio" name="version" id="app-${i}" value="${
             version.version
           }" data-beta="${version.beta ? '1' : '0'}" ${
-            !noRec ? ('data-recommended=' + version.recommended ? 1 : 0) : ''
+            !noRec ? 'data-recommended="' + recommended + '"' : ''
           }/>
             <label for="app-${i}">${version.version} ${
             version.beta ? ' (beta)' : ''
@@ -355,7 +362,10 @@ ws.onmessage = (msg) => {
           }</label></li>`;
         }
 
-        if (message.selectedApp === 'youtube.music' && !message.foundDevice)
+        if (
+          message.selectedApp === 'com.google.android.apps.youtube.music' &&
+          !message.foundDevice
+        )
           document.getElementById('continue').onclick = () => {
             const version = document.querySelector(
               'input[name="version"]:checked'
@@ -494,6 +504,33 @@ ws.onmessage = (msg) => {
       if (confirmVer)
         return sendCommand({ event: 'getAppVersion', useVer: true });
       else return sendCommand({ event: 'getAppVersion' });
+    }
+
+    case 'appList': {
+      let id = 0;
+      for (const app of message.list) {
+        const appName = app.appName.replace(' (Wear OS)', '');
+        const link = app.link.replace('-wear-os', '');
+        document.getElementById('appList').innerHTML += `
+              <li>
+                <input
+                  type="radio"
+                  name="app"
+                  id="app-${id}"
+                  value="${app.appPackage}"
+                  link="${link}"
+                  appName="${appName}"
+                /><label for="app-${id}">${appName} (${app.appPackage})</label>
+              </li>`;
+
+        id++;
+      }
+      break;
+    }
+
+    case 'apkUploaded': {
+      location.href = '/patches';
+      break;
     }
   }
 };
