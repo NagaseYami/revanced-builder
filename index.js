@@ -32,7 +32,6 @@ const app = Express();
 const server = createServer(app);
 const wsServer = new WebSocketServer({ server });
 const wsClients = [];
-let currentWSClient;
 
 app.use(fileUpload());
 app.use(Express.static(join(__dirname, 'public')));
@@ -46,8 +45,8 @@ app.get('/microg.apk', (_, res) => {
 });
 
 app.post('/uploadApk', (req, res) => {
-  req.socket.setTimeout(10 * 60 * 1000);
-  req.setTimeout(10 * 60 * 1000);
+  req.socket.setTimeout(60000 * 60);
+  req.setTimeout(60000 * 60);
   uploadAPKFile(req, res, wsClients);
 });
 

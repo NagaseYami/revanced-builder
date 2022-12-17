@@ -34,11 +34,12 @@ async function afterBuild(ws) {
 
   if (!global.jarNames.isRooted && process.platform === 'android') {
     await exec(
-      `cp ${join(global.revancedDir, global.outputName)} /storage/emulated/0/${
+      `cp "${join(
+        global.revancedDir,
         global.outputName
-      }`
+      )}" "/storage/emulated/0/${global.outputName}"`
     );
-    await exec(`cp ${global.jarNames.microG} /storage/emulated/0/microg.apk`);
+    await exec(`cp "${global.jarNames.microG}" /storage/emulated/0/microg.apk`);
 
     ws.send(
       JSON.stringify({
@@ -88,7 +89,9 @@ async function reinstallReVanced() {
 function outputName() {
   const part1 = 'ReVanced';
   const appName = global.jarNames.selectedApp.appName;
-  let part2 = appName ? global.jarNames.selectedApp.appName.replace(/^[a-z0-9]+$/i, '') : global.jarNames.packageName.replace(/\./g, '');
+  let part2 = appName
+    ? global.jarNames.selectedApp.appName.replace(/[^a-zA-Z0-9\\.\\-]/g, '')
+    : global.jarNames.packageName.replace(/\./g, '');
 
   // TODO: If the existing input APK is used from revanced/ without downloading, version and arch aren't set
   const part3 = global?.apkInfo?.version ? `v${global.apkInfo.version}` : '';
