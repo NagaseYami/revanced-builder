@@ -48,7 +48,7 @@ async function afterBuild(ws) {
       })
     );
   } else if (process.platform === 'android') await mount(ws);
-  else if (!global.jarNames.devices[0])
+  else if (!(global.jarNames.devices && global.jarNames.devices[0]))
     ws.send(
       JSON.stringify({
         event: 'patchLog',
@@ -56,7 +56,7 @@ async function afterBuild(ws) {
       })
     );
 
-  if (global.jarNames.devices[0]) {
+  if (global.jarNames.devices && global.jarNames.devices[0]) {
     ws.send(JSON.stringify({ event: 'buildFinished', install: true }));
   } else ws.send(JSON.stringify({ event: 'buildFinished' }));
 }
@@ -172,7 +172,7 @@ module.exports = async function patchApp(ws) {
 
   args.push(...global.jarNames.patches.split(' '));
 
-  const buildProcess = spawn('java', args);
+  const buildProcess = spawn(global.javaCmd, args);
 
   buildProcess.stdout.on('data', async (data) => {
     ws.send(
