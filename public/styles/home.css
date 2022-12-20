@@ -1,16 +1,27 @@
-#content--wrapper {
-  box-shadow: none !important;
+#go {
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
 }
 
-div#content {
-  height: 100%;
+#go i {
+  margin-left: 8px;
+}
+
+main {
+  padding: 0 !important;
+}
+
+#content--wrapper {
+  box-shadow: none !important;
+  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 #content {
-  text-align: center;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
 }
 
@@ -41,10 +52,16 @@ div#content {
   justify-content: center;
   align-items: center;
 }
-
-.accent-fun {
-  color: var(--accentColor);
+svg {
+  min-height: 160px;
+  max-height: 250px;
+  margin-bottom: 17px;
+}
+h1 span {
   font-weight: bold;
+}
+h1 .accent-fun {
+  color: var(--accentColor);
   filter: brightness(160%);
 }
 
