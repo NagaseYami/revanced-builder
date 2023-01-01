@@ -25,7 +25,9 @@ const {
   getDevices,
   setDevice,
   installReVanced,
-  getApp
+  getApp,
+  getSettings,
+  setSettings
 } = require('./wsEvents/index.js');
 
 const app = Express();
@@ -207,6 +209,12 @@ wsServer.on('connection', (ws) => {
         break;
       case 'installReVanced':
         await installReVanced(ws);
+        break;
+      case 'getSettings':
+        await getSettings(ws);
+        break;
+      case 'setSettings':
+        await setSettings(message);
         break;
       // case 'exit':
         // process.kill(process.pid, 'SIGTERM');
